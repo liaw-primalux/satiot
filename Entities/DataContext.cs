@@ -9,5 +9,6 @@ namespace Entities
         }
 
         public DbSet<AppObject> AppWpObject { get; set; }
+        public DbSet<AppObjassoc> AppObjassoc { get; set; }
     }
 }

@@ -1,0 +1,38 @@
+<div class="row">
+    <div class="col-12">
+        <h1>Hello there,</h1>
+        <p>
+            Looking to purchase an IoT device, but is concerned with cyber security issues and don't know what is
+            involved?
+            Don't worry, this tool will help to guide you with your purchse, and show you the safeguards you can do to
+            protect
+            yourself.
+        </p>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <h6>Step 1:</h6>
+        <p>Start by selecting from the categories below:</p>
+        <ul>
+            <li *ngFor="let category of categoryList">
+                <a [routerLink]="" (click)="getDevicesByCat(category.id)">
+                    {{ category.objName }}
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="row" *ngIf="deviceList">
+    <div class="col-12">
+        <h6>Step 2:</h6>
+        <p>Locate your device below:</p>
+        <ul>
+            <li *ngFor="let device of deviceList">
+                <a [routerLink]="">
+                    {{ device.objName }}
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>

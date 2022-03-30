@@ -20,7 +20,14 @@ namespace Controllers
         [HttpGet("GetObjectsByType")]
         public async Task<ActionResult<List<AppObject>>> GetObjectsByType(string objType)
         {
-            List<AppObject> objects = await (from o in _context.AppWpObject where o.ObjType == objType select o).ToListAsync();
+            List<AppObject> objects = await (from o in _context.AppWpObject where o.ObjType == objType orderby o.ObjName select o).ToListAsync();
+            return Ok(objects);
+        }
+
+        [HttpGet("GetDevicesByCat")]
+        public async Task<ActionResult<List<AppObject>>> GetDevicesByCat(int parentId)
+        {
+            List<AppObject> objects = await (from oa in _context.AppObjassoc join o in _context.AppWpObject on oa.ChildId equals o.Id where oa.ParentId == parentId select o).ToListAsync();
             return Ok(objects);
         }
     }
