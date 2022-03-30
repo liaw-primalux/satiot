@@ -14,11 +14,16 @@ export class SharedService {
     return this.HttpClient.get(this.apiUrl + '/GetObjectsByType?objType=' + objType);
   }
 
-  getDevicesByCat(parentId: number) {
-    return this.HttpClient.get(this.apiUrl + '/GetDevicesByCat?parentId=' + parentId);
+  getChildrenByParentId(parentId: number) {
+    return this.HttpClient.get(this.apiUrl + '/GetChildrenByParentId?parentId=' + parentId);
+  }
+
+  getChildrenByParentList(parentIds: number[]) {
+    return this.HttpClient.post(this.apiUrl + '/GetChildrenByParentList', parentIds);
   }
 
   getDeviceById(id: number) {
     return this.HttpClient.get(this.apiUrl + '/GetDeviceById?id=' + id);
   }
+
 }

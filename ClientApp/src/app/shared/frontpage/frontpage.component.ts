@@ -31,7 +31,7 @@ export class FrontpageComponent implements OnInit {
   }
 
   getDevicesByCat(parentId: number) {
-    this.sharedService.getDevicesByCat(parentId)
+    this.sharedService.getChildrenByParentId(parentId)
       .subscribe(
         (response: AppObject[]) => {
           this.deviceList = response;

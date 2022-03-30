@@ -24,10 +24,17 @@ namespace Controllers
             return Ok(objects);
         }
 
-        [HttpGet("GetDevicesByCat")]
-        public async Task<ActionResult<List<AppObject>>> GetDevicesByCat(int parentId)
+        [HttpGet("GetChildrenByParentId")]
+        public async Task<ActionResult<List<AppObject>>> GetChildrenByParentId(int parentId)
         {
-            List<AppObject> objects = await (from oa in _context.AppObjassoc join o in _context.AppWpObject on oa.ChildId equals o.Id where oa.ParentId == parentId select o).ToListAsync();
+            List<AppObject> objects = await (from oa in _context.AppObjassoc join o in _context.AppWpObject on oa.ChildId equals o.Id where oa.ParentId == parentId orderby o.ObjName select o).ToListAsync();
+            return Ok(objects);
+        }
+
+        [HttpPost("GetChildrenByParentList")]
+        public async Task<ActionResult<List<AppObject>>> GetChildrenByParentList(List<int> parentIds)
+        {
+            List<AppObject> objects = await (from oa in _context.AppObjassoc join o in _context.AppWpObject on oa.ChildId equals o.Id where parentIds.Contains(oa.ParentId) orderby o.ObjName select o).ToListAsync();
             return Ok(objects);
         }
 

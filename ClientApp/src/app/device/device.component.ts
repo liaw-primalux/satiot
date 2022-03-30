@@ -10,6 +10,8 @@ import { SharedService } from '../shared/shared.service';
 })
 export class DeviceComponent implements OnInit {
   device: AppObject;
+  componentList: AppObject[];
+  threatList: AppObject[];
 
   constructor(
     private route: ActivatedRoute,
@@ -22,6 +24,7 @@ export class DeviceComponent implements OnInit {
     });
 
     this.getDeviceById();
+    this.getComponentsByDevice();
   }
 
   getDeviceById() {
@@ -29,6 +32,29 @@ export class DeviceComponent implements OnInit {
       .subscribe(
         (response: AppObject) => {
           this.device = response;
+        }
+      );
+  }
+
+  getComponentsByDevice() {
+    this.sharedService.getChildrenByParentId(this.device.id)
+      .subscribe(
+        (response: AppObject[]) => {
+          this.componentList = response;
+        }
+      );
+  }
+
+  getThreatsByComponents() {
+    let parentIds = [];
+    this.componentList.forEach(element => {
+      parentIds.push(element.id);
+    });
+
+    this.sharedService.getChildrenByParentList(parentIds)
+      .subscribe(
+        (response: AppObject[]) => {
+          this.threatList = response;
         }
       );
   }
