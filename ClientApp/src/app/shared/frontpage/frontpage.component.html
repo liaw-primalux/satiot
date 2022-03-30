@@ -11,28 +11,39 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-12">
-        <h6>Step 1:</h6>
-        <p>Start by selecting from the categories below:</p>
-        <ul>
-            <li *ngFor="let category of categoryList">
-                <a [routerLink]="" (click)="getDevicesByCat(category.id)">
-                    {{ category.objName }}
-                </a>
-            </li>
-        </ul>
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <h6>Step 1:</h6>
+            </div>
+            <div class="card-body">
+                <p>Start by selecting from the categories below:</p>
+                <ul>
+                    <li *ngFor="let category of categoryList">
+                        <a [routerLink]="" (click)="getDevicesByCat(category.id)">
+                            {{ category.objName }}
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </div>
-</div>
-<div class="row" *ngIf="deviceList">
-    <div class="col-12">
-        <h6>Step 2:</h6>
-        <p>Locate your device below:</p>
-        <ul>
-            <li *ngFor="let device of deviceList">
-                <a [routerLink]="['/device', device.id]">
-                    {{ device.objName }}
-                </a>
-            </li>
-        </ul>
+
+    <div class="col-lg-12" *ngIf="deviceList">
+        <div class="card">
+            <div class="card-header">
+                <h6>Step 2:</h6>
+            </div>
+            <div class="card-body">
+                <p>Locate your device below:</p>
+                <ul>
+                    <li *ngFor="let device of deviceList">
+                        <a [routerLink]="['/device', device.id]">
+                            {{ device.objName }}
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </div>
 </div>

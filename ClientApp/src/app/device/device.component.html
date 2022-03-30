@@ -8,13 +8,13 @@
 
 <div class="row">
     <div class="col-lg-12">
-        <h5>Step 3:</h5>
-    </div>
-    <div class="col-lg-12">
-        <h6>A(n) {{ device.objName }} typically has the following component(s).</h6>
-        <p>Please select all that apply:</p>
-        <div class="row">
-            <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <h5>Step 3:</h5>
+            </div>
+            <div class="card-body">
+                <h6>A(n) {{ device.objName }} typically has the following component(s).</h6>
+                <p>Please select all that apply:</p>
                 <dx-data-grid [dataSource]="componentList" [allowColumnReordering]="true" [allowColumnResizing]="true"
                     columnResizingMode="widget" [columnAutoWidth]="true" [rowAlternationEnabled]="true"
                     [showBorders]="true">
@@ -23,31 +23,31 @@
                     <dxo-paging [pageSize]="10"></dxo-paging>
                     <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 25, 50, 100]" [showInfo]="true">
                     </dxo-pager>
-                    <!-- <dxo-search-panel [visible]="true" [highlightCaseSensitive]="true"></dxo-search-panel> -->
                     <dxo-sorting mode="multiple"></dxo-sorting>
 
                     <dxi-column dataField="active" caption="" width="50"></dxi-column>
                     <dxi-column dataField="objName" caption="Component" [sortIndex]="1" sortOrder="asc"></dxi-column>
                 </dx-data-grid>
             </div>
-        </div>
-        <button class="btn btn-primary" (click)="getThreatsByComponents()">Next</button>
-    </div>
-</div>
-<br>
+            <div class="card-footer">
+                <button class="btn btn-primary" (click)="getThreatsByComponents()">Next</button>
 
-<div class="row" *ngIf="threatList">
-    <div class="col-lg-12">
-        <h5>Step 4:</h5>
+            </div>
+        </div>
     </div>
-    <div class="col-lg-12">
-        <p>
-            Associated with the components selected above, are these threats at large. See the description against each
-            or
-            click to expand further.
-        </p>
-        <div class="row">
-            <div class="col-lg-12">
+
+    <div class="col-lg-12" *ngIf="threatList">
+        <div class="card">
+            <div class="card-header">
+                <h5>Step 4:</h5>
+            </div>
+            <div class="card-body">
+                <p>
+                    Associated with the components selected above, are these threats at large. See the description
+                    against each
+                    or
+                    click to expand further.
+                </p>
                 <dx-data-grid [dataSource]="threatList" [allowColumnReordering]="true" [allowColumnResizing]="true"
                     columnResizingMode="widget" [columnAutoWidth]="true" [rowAlternationEnabled]="true"
                     [showBorders]="true">
@@ -56,13 +56,29 @@
                     <dxo-paging [pageSize]="10"></dxo-paging>
                     <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 25, 50, 100]" [showInfo]="true">
                     </dxo-pager>
-                    <!-- <dxo-search-panel [visible]="true" [highlightCaseSensitive]="true"></dxo-search-panel> -->
                     <dxo-sorting mode="multiple"></dxo-sorting>
 
                     <dxi-column dataField="objName" caption="Threats" width="300" [sortIndex]="1" sortOrder="asc">
                     </dxi-column>
                     <dxi-column dataField="objDesc" caption="What is it?"></dxi-column>
                 </dx-data-grid>
+            </div>
+            <div class="card-footer">
+                <button class="btn btn-link" (click)="getCountermByThreats()">See recommendations</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-12" *ngIf="countermList">
+        <div class="card">
+            <div class="card-header">
+                <h5>So what can I do?</h5>
+            </div>
+            <div class="card-body">
+                <p>
+                    Against the threats listed above, here are the steps we could take to minimise the risks. Godspeed.
+                </p>
+                Safeguards
             </div>
         </div>
     </div>

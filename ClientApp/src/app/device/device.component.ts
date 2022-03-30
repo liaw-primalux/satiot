@@ -12,6 +12,7 @@ export class DeviceComponent implements OnInit {
   device: AppObject;
   componentList: AppObject[];
   threatList: AppObject[];
+  countermList: AppObject[];
 
   constructor(
     private route: ActivatedRoute,
@@ -57,6 +58,10 @@ export class DeviceComponent implements OnInit {
           this.threatList = response;
         }
       );
+  }
+
+  getCountermByThreats() {
+    this.countermList = [];
   }
 
 }
