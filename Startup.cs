@@ -25,7 +25,7 @@ namespace SATIoT
         {
             services.AddDbContext<DataContext>(options =>
             {
-                options.UseSqlite(_config.GetConnectionString("DefaultConnection"));
+                options.UseNpgsql(_config.GetConnectionString("DefaultConnection"));
             });
 
             services.AddControllersWithViews();
