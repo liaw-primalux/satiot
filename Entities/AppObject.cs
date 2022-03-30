@@ -7,5 +7,6 @@ namespace Entities
         public string ObjName { get; set; }
         public string ObjDesc { get; set; }
         public string ObjText { get; set; }
+        public bool Active { get; set; }
     }
 }
