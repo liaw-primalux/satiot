@@ -9,6 +9,7 @@ import { SharedService } from '../shared.service';
 })
 export class FrontpageComponent implements OnInit {
   httpLoading = false;
+  started = false;
   categoryList: AppObject[];
   selectedCategory: AppObject;
   deviceList: AppObject[];

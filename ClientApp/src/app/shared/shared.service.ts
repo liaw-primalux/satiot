@@ -22,6 +22,10 @@ export class SharedService {
     return this.HttpClient.post(this.apiUrl + '/GetChildrenByParentList', parentIds);
   }
 
+  getThreatsByComponents(parentIds: number[]) {
+    return this.HttpClient.post(this.apiUrl + '/GetThreatsByComponents', parentIds);
+  }
+
   getDeviceById(id: number) {
     return this.HttpClient.get(this.apiUrl + '/GetDeviceById?id=' + id);
   }

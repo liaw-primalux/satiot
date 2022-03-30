@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Entities;
+using Entities.DTO;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -43,6 +44,27 @@ namespace Controllers
         {
             AppObject appObject = await (from o in _context.AppWpObject where o.Id == id select o).FirstOrDefaultAsync();
             return Ok(appObject);
+        }
+
+        [HttpPost("GetThreatsByComponents")]
+        public async Task<ActionResult<List<DtoThreatList>>> GetThreatsByComponents(List<int> parentIds)
+        {
+            List<DtoThreatList> objects = await (from oa in _context.AppObjassoc
+                                                 join o in _context.AppWpObject on oa.ChildId equals o.Id
+                                                 where parentIds.Contains(oa.ParentId)
+                                                 orderby o.ObjName
+                                                 select new DtoThreatList
+                                                 {
+                                                     Id = o.Id,
+                                                     ObjName = o.ObjName,
+                                                     ObjDesc = o.ObjDesc
+                                                 }).ToListAsync();
+
+            foreach (var threat in objects)
+            {
+                threat.Parents = await (from oa in _context.AppObjassoc join o in _context.AppWpObject on oa.ParentId equals o.Id where oa.ChildId == threat.Id orderby o.ObjName select o.ObjName).ToListAsync();
+            }
+            return Ok(objects);
         }
     }
 }

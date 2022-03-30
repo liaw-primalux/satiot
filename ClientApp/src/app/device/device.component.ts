@@ -52,7 +52,7 @@ export class DeviceComponent implements OnInit {
       parentIds.push(element.id);
     });
 
-    this.sharedService.getChildrenByParentList(parentIds)
+    this.sharedService.getThreatsByComponents(parentIds)
       .subscribe(
         (response: AppObject[]) => {
           this.threatList = response;
