@@ -30,5 +30,12 @@ namespace Controllers
             List<AppObject> objects = await (from oa in _context.AppObjassoc join o in _context.AppWpObject on oa.ChildId equals o.Id where oa.ParentId == parentId select o).ToListAsync();
             return Ok(objects);
         }
+
+        [HttpGet("GetDeviceById")]
+        public async Task<ActionResult<List<AppObject>>> GetDeviceById(int id)
+        {
+            AppObject appObject = await (from o in _context.AppWpObject where o.Id == id select o).FirstOrDefaultAsync();
+            return Ok(appObject);
+        }
     }
 }

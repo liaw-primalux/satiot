@@ -17,4 +17,8 @@ export class SharedService {
   getDevicesByCat(parentId: number) {
     return this.HttpClient.get(this.apiUrl + '/GetDevicesByCat?parentId=' + parentId);
   }
+
+  getDeviceById(id: number) {
+    return this.HttpClient.get(this.apiUrl + '/GetDeviceById?id=' + id);
+  }
 }

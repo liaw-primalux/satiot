@@ -29,7 +29,7 @@
         <p>Locate your device below:</p>
         <ul>
             <li *ngFor="let device of deviceList">
-                <a [routerLink]="">
+                <a [routerLink]="['/device', device.id]">
                     {{ device.objName }}
                 </a>
             </li>

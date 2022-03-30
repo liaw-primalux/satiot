@@ -22,22 +22,18 @@ export class FrontpageComponent implements OnInit {
   }
 
   getObjectsByType(objType: string) {
-    this.httpLoading = true;
     this.sharedService.getObjectsByType(objType)
       .subscribe(
         (response: AppObject[]) => {
-          this.httpLoading = false;
           this[objType.toLowerCase() + 'List'] = response;
         }
       );
   }
 
   getDevicesByCat(parentId: number) {
-    console.log(parentId)
     this.sharedService.getDevicesByCat(parentId)
       .subscribe(
         (response: AppObject[]) => {
-          this.httpLoading = false;
           this.deviceList = response;
         }
       );
