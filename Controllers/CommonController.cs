@@ -58,7 +58,7 @@ namespace Controllers
                                                      Id = o.Id,
                                                      ObjName = o.ObjName,
                                                      ObjDesc = o.ObjDesc
-                                                 }).ToListAsync();
+                                                 }).Distinct().ToListAsync();
 
             foreach (var threat in objects)
             {
