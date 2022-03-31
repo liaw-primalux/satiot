@@ -80,7 +80,16 @@
                 <p>
                     Against the threats listed above, here are the steps we could take to minimise the risks. Godspeed.
                 </p>
-                Safeguards
+                <ul>
+                    <li *ngFor="let threat of threatList">
+                        {{ threat.objName }}
+                        <br>
+                        <small>This is a type of concern that is common or could happen when a device uses <i>{{
+                                threat.parents }}</i> components.</small> <br>
+                        Safeguards can include:
+                        <br><br>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>
