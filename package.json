@@ -1,0 +1,16 @@
+{
+  "name": "satiot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "/Users/pc/Library/CloudStorage/OneDrive-Personal/Repository/WebApp/SATIoT"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
