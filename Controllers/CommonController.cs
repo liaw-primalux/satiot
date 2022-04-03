@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -21,8 +22,16 @@ namespace Controllers
         [HttpGet("GetObjectsByType")]
         public async Task<ActionResult<List<AppObject>>> GetObjectsByType(string objType)
         {
-            List<AppObject> objects = await (from o in _context.AppWpObject where o.ObjType == objType orderby o.ObjName select o).ToListAsync();
-            return Ok(objects);
+            try
+            {
+                List<AppObject> objects = await (from o in _context.AppWpObject where o.ObjType == objType orderby o.ObjName select o).ToListAsync();
+                return Ok(objects);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+
         }
 
         [HttpGet("GetChildrenByParentId")]
