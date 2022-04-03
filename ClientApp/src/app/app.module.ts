@@ -12,6 +12,7 @@ import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { SharedModule } from './shared/shared.module';
 import { DeviceComponent } from './device/device.component';
 import { DxDataGridModule } from 'devextreme-angular';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,9 @@ import { DxDataGridModule } from 'devextreme-angular';
       { path: 'fetch-data', component: FetchDataComponent },
     ]),
     SharedModule
+  ],
+  providers: [
+    { provide: LocationStrategy, useClass: HashLocationStrategy }
   ],
   bootstrap: [AppComponent]
 })
