@@ -9,8 +9,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace SATIoT.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220330125634_PostGresInitial")]
-    partial class PostGresInitial
+    [Migration("20220405065814_InitialMigration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -74,7 +74,7 @@ namespace SATIoT.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AppWpObject");
+                    b.ToTable("AppObject");
                 });
 #pragma warning restore 612, 618
         }

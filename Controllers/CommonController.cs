@@ -24,7 +24,7 @@ namespace Controllers
         {
             try
             {
-                List<AppObject> objects = await (from o in _context.AppWpObject where o.ObjType == objType orderby o.ObjName select o).ToListAsync();
+                List<AppObject> objects = await (from o in _context.AppObject where o.ObjType == objType orderby o.ObjName select o).ToListAsync();
                 return Ok(objects);
             }
             catch (Exception ex)
@@ -37,21 +37,21 @@ namespace Controllers
         [HttpGet("GetChildrenByParentId")]
         public async Task<ActionResult<List<AppObject>>> GetChildrenByParentId(int parentId)
         {
-            List<AppObject> objects = await (from oa in _context.AppObjassoc join o in _context.AppWpObject on oa.ChildId equals o.Id where oa.ParentId == parentId orderby o.ObjName select o).ToListAsync();
+            List<AppObject> objects = await (from oa in _context.AppObjassoc join o in _context.AppObject on oa.ChildId equals o.Id where oa.ParentId == parentId orderby o.ObjName select o).ToListAsync();
             return Ok(objects);
         }
 
         [HttpPost("GetChildrenByParentList")]
         public async Task<ActionResult<List<AppObject>>> GetChildrenByParentList(List<int> parentIds)
         {
-            List<AppObject> objects = await (from oa in _context.AppObjassoc join o in _context.AppWpObject on oa.ChildId equals o.Id where parentIds.Contains(oa.ParentId) orderby o.ObjName select o).ToListAsync();
+            List<AppObject> objects = await (from oa in _context.AppObjassoc join o in _context.AppObject on oa.ChildId equals o.Id where parentIds.Contains(oa.ParentId) orderby o.ObjName select o).ToListAsync();
             return Ok(objects);
         }
 
         [HttpGet("GetDeviceById")]
         public async Task<ActionResult<List<AppObject>>> GetDeviceById(int id)
         {
-            AppObject appObject = await (from o in _context.AppWpObject where o.Id == id select o).FirstOrDefaultAsync();
+            AppObject appObject = await (from o in _context.AppObject where o.Id == id select o).FirstOrDefaultAsync();
             return Ok(appObject);
         }
 
@@ -59,7 +59,7 @@ namespace Controllers
         public async Task<ActionResult<List<DtoThreatList>>> GetThreatsByComponents(List<int> parentIds)
         {
             List<DtoThreatList> objects = await (from oa in _context.AppObjassoc
-                                                 join o in _context.AppWpObject on oa.ChildId equals o.Id
+                                                 join o in _context.AppObject on oa.ChildId equals o.Id
                                                  where parentIds.Contains(oa.ParentId)
                                                  orderby o.ObjName
                                                  select new DtoThreatList
@@ -71,7 +71,7 @@ namespace Controllers
 
             foreach (var threat in objects)
             {
-                threat.Parents = await (from oa in _context.AppObjassoc join o in _context.AppWpObject on oa.ParentId equals o.Id where oa.ChildId == threat.Id orderby o.ObjName select o.ObjName).ToListAsync();
+                threat.Parents = await (from oa in _context.AppObjassoc join o in _context.AppObject on oa.ParentId equals o.Id where oa.ChildId == threat.Id orderby o.ObjName select o.ObjName).ToListAsync();
             }
             return Ok(objects);
         }
