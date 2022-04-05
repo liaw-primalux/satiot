@@ -9,8 +9,11 @@ import { SharedService } from '../shared/shared.service';
   styleUrls: ['./device.component.css']
 })
 export class DeviceComponent implements OnInit {
+  getdeviceLoading = false;
   device: AppObject;
+  getcomponentListLoading = false;
   componentList: AppObject[];
+  getthreatListLoading = false;
   threatList: AppObject[];
   countermList: AppObject[];
 
@@ -29,25 +32,32 @@ export class DeviceComponent implements OnInit {
   }
 
   getDeviceById() {
+    this.getdeviceLoading = true;
     this.sharedService.getDeviceById(this.device.id)
       .subscribe(
         (response: AppObject) => {
           this.device = response;
         }
-      );
+      ).add(() => {
+        this.getdeviceLoading = false;
+      });
   }
 
   getComponentsByDevice() {
+    this.getcomponentListLoading = true;
     this.sharedService.getChildrenByParentId(this.device.id)
       .subscribe(
         (response: AppObject[]) => {
           this.componentList = response;
         }
-      );
+      ).add(() => {
+        this.getcomponentListLoading = false;
+      });
   }
 
   getThreatsByComponents() {
     let parentIds = [];
+    this.getthreatListLoading = true;
     this.componentList.forEach(element => {
       parentIds.push(element.id);
     });
@@ -57,7 +67,9 @@ export class DeviceComponent implements OnInit {
         (response: AppObject[]) => {
           this.threatList = response;
         }
-      );
+      ).add(() => {
+        this.getthreatListLoading = false;
+      });
   }
 
   getCountermByThreats() {
