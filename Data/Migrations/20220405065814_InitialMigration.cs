@@ -3,7 +3,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace SATIoT.Data.Migrations
 {
-    public partial class PostGresInitial : Migration
+    public partial class InitialMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -26,7 +26,7 @@ namespace SATIoT.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AppWpObject",
+                name: "AppObject",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
@@ -39,7 +39,7 @@ namespace SATIoT.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AppWpObject", x => x.Id);
+                    table.PrimaryKey("PK_AppObject", x => x.Id);
                 });
         }
 
@@ -49,7 +49,7 @@ namespace SATIoT.Data.Migrations
                 name: "AppObjassoc");
 
             migrationBuilder.DropTable(
-                name: "AppWpObject");
+                name: "AppObject");
         }
     }
 }
