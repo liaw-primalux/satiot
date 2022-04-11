@@ -94,7 +94,7 @@ namespace Controllers
 
                 foreach (var threat in objects)
                 {
-                    threat.Parents = await (from oa in _context.AppObjassoc join o in _context.AppWpObject on oa.ParentId equals o.Id where oa.ChildId == threat.Id orderby o.ObjName select o.ObjName).ToListAsync();
+                    threat.Parents = await (from oa in _context.AppObjassoc join o in _context.AppWpObject on oa.ParentId equals o.Id where parentIds.Contains(oa.ParentId) && oa.ChildId == threat.Id select o.ObjName).ToListAsync();
                 }
                 return Ok(objects);
             }
