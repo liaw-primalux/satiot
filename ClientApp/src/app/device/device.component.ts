@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { AppObject } from '../models/appObject';
 import { SharedService } from '../shared/shared.service';
 
@@ -19,7 +20,8 @@ export class DeviceComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private sharedService: SharedService
+    private sharedService: SharedService,
+    private toastr: ToastrService
   ) { }
   ngOnInit() {
     this.device = new AppObject();
@@ -37,6 +39,10 @@ export class DeviceComponent implements OnInit {
       .subscribe(
         (response: AppObject) => {
           this.device = response;
+        },
+        (error) => {
+          this.toastr.error("Failed to device details. Please contact system administrator.", "System error..",
+            { closeButton: true, progressBar: true, timeOut: 0, extendedTimeOut: 1500 });
         }
       ).add(() => {
         this.getdeviceLoading = false;
@@ -49,6 +55,10 @@ export class DeviceComponent implements OnInit {
       .subscribe(
         (response: AppObject[]) => {
           this.componentList = response;
+        },
+        (error) => {
+          this.toastr.error("Failed to components. Please contact system administrator.", "System error..",
+            { closeButton: true, progressBar: true, timeOut: 0, extendedTimeOut: 1500 });
         }
       ).add(() => {
         this.getcomponentListLoading = false;
@@ -66,6 +76,10 @@ export class DeviceComponent implements OnInit {
       .subscribe(
         (response: AppObject[]) => {
           this.threatList = response;
+        },
+        (error) => {
+          this.toastr.error("Failed to retrieve threats. Please contact system administrator.", "System error..",
+            { closeButton: true, progressBar: true, timeOut: 0, extendedTimeOut: 1500 });
         }
       ).add(() => {
         this.getthreatListLoading = false;

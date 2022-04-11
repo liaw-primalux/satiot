@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AppObject } from 'src/app/models/appObject';
 import { SharedService } from '../shared.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-frontpage',
@@ -17,7 +18,8 @@ export class FrontpageComponent implements OnInit {
   getdeviceListLoading = false;
 
   constructor(
-    private sharedService: SharedService
+    private sharedService: SharedService,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit() {
@@ -30,6 +32,10 @@ export class FrontpageComponent implements OnInit {
       .subscribe(
         (response: AppObject[]) => {
           this[objType.toLowerCase() + 'List'] = response;
+        },
+        (error) => {
+          this.toastr.error("Failed to retrieve " + objType.toLocaleLowerCase() + " list. Please contact system administrator.", "System error..",
+            { closeButton: true, progressBar: true, timeOut: 0, extendedTimeOut: 1500 });
         }
       ).add(() => {
         this['get' + objType.toLowerCase() + 'ListLoading'] = false;
@@ -42,6 +48,10 @@ export class FrontpageComponent implements OnInit {
       .subscribe(
         (response: AppObject[]) => {
           this.deviceList = response;
+        },
+        (error) => {
+          this.toastr.error("Failed to retrieve devices. Please contact system administrator.", "System error..",
+            { closeButton: true, progressBar: true, timeOut: 0, extendedTimeOut: 1500 });
         }
       ).add(() => {
         this.getdeviceListLoading = false;
