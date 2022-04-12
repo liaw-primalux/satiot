@@ -72,7 +72,7 @@ namespace SATIoT.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AppObject");
+                    b.ToTable("AppWpObject");
                 });
 #pragma warning restore 612, 618
         }
