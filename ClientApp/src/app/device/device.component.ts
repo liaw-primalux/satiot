@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { DxDataGridComponent } from 'devextreme-angular';
 import { ToastrService } from 'ngx-toastr';
 import { AppObject } from '../models/appObject';
+import { DtoObject } from '../models/dto/dtoObject';
 import { SharedService } from '../shared/shared.service';
 
 @Component({
@@ -12,11 +13,11 @@ import { SharedService } from '../shared/shared.service';
 })
 export class DeviceComponent implements OnInit {
   getdeviceLoading = false;
-  device: AppObject;
+  device: DtoObject;
   getcomponentListLoading = false;
   componentList: AppObject[];
   getthreatListLoading = false;
-  threatList: AppObject[];
+  threatList: DtoObject[];
   countermList: AppObject[];
 
   @ViewChild("gridComponents", { static: false }) gridComponents: DxDataGridComponent;
@@ -28,7 +29,7 @@ export class DeviceComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.device = new AppObject();
+    this.device = new DtoObject();
     this.route.paramMap.subscribe(params => {
       this.device.id = +params.get('id');
     });
@@ -41,7 +42,7 @@ export class DeviceComponent implements OnInit {
     this.getdeviceLoading = true;
     this.sharedService.getDeviceById(this.device.id)
       .subscribe(
-        (response: AppObject) => {
+        (response: DtoObject) => {
           this.device = response;
         },
         (error) => {
@@ -81,7 +82,7 @@ export class DeviceComponent implements OnInit {
 
     this.sharedService.getThreatsByComponents(components)
       .subscribe(
-        (response: AppObject[]) => {
+        (response: DtoObject[]) => {
           this.threatList = response;
         },
         (error) => {

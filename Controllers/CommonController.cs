@@ -24,7 +24,7 @@ namespace Controllers
         {
             try
             {
-                List<AppObject> objects = await (from o in _context.AppWpObject where o.ObjType == objType orderby o.ObjName select o).ToListAsync();
+                List<AppObject> objects = await (from o in _context.AppObject where o.ObjType == objType orderby o.ObjName select o).ToListAsync();
                 return Ok(objects);
             }
             catch (Exception ex)
@@ -39,7 +39,7 @@ namespace Controllers
         {
             try
             {
-                List<AppObject> objects = await (from oa in _context.AppObjassoc join o in _context.AppWpObject on oa.ChildId equals o.Id where oa.ParentId == parentId orderby o.ObjName select o).ToListAsync();
+                List<AppObject> objects = await (from oa in _context.AppObjassoc join o in _context.AppObject on oa.ChildId equals o.Id where oa.ParentId == parentId orderby o.ObjName select o).ToListAsync();
                 return Ok(objects);
             }
             catch (Exception ex)
@@ -53,7 +53,7 @@ namespace Controllers
         {
             try
             {
-                List<AppObject> objects = await (from oa in _context.AppObjassoc join o in _context.AppWpObject on oa.ChildId equals o.Id where parentIds.Contains(oa.ParentId) orderby o.ObjName select o).ToListAsync();
+                List<AppObject> objects = await (from oa in _context.AppObjassoc join o in _context.AppObject on oa.ChildId equals o.Id where parentIds.Contains(oa.ParentId) orderby o.ObjName select o).ToListAsync();
                 return Ok(objects);
             }
             catch (Exception ex)
@@ -63,11 +63,19 @@ namespace Controllers
         }
 
         [HttpGet("GetDeviceById")]
-        public async Task<ActionResult<List<AppObject>>> GetDeviceById(int id)
+        public async Task<ActionResult<DtoObject>> GetDeviceById(int id)
         {
             try
             {
-                AppObject appObject = await (from o in _context.AppWpObject where o.Id == id select o).FirstOrDefaultAsync();
+                DtoObject appObject = await (from o in _context.AppObject
+                                             where o.Id == id
+                                             select new DtoObject
+                                             {
+                                                 Id = o.Id,
+                                                 ObjName = o.ObjName,
+                                                 ObjDesc = o.ObjDesc,
+                                                 Parents = (from oa in _context.AppObjassoc join oo in _context.AppObject on oa.ParentId equals oo.Id where oa.ChildId == o.Id orderby oo.ObjName select oo.ObjName).ToList()
+                                             }).FirstOrDefaultAsync();
                 return Ok(appObject);
             }
             catch (Exception ex)
@@ -77,24 +85,24 @@ namespace Controllers
         }
 
         [HttpPost("GetThreatsByComponents")]
-        public async Task<ActionResult<List<DtoThreatList>>> GetThreatsByComponents(List<int> parentIds)
+        public async Task<ActionResult<List<DtoObject>>> GetThreatsByComponents(List<int> parentIds)
         {
             try
             {
-                List<DtoThreatList> objects = await (from oa in _context.AppObjassoc
-                                                     join o in _context.AppWpObject on oa.ChildId equals o.Id
-                                                     where parentIds.Contains(oa.ParentId)
-                                                     orderby o.ObjName
-                                                     select new DtoThreatList
-                                                     {
-                                                         Id = o.Id,
-                                                         ObjName = o.ObjName,
-                                                         ObjDesc = o.ObjDesc
-                                                     }).Distinct().ToListAsync();
+                List<DtoObject> objects = await (from oa in _context.AppObjassoc
+                                                 join o in _context.AppObject on oa.ChildId equals o.Id
+                                                 where parentIds.Contains(oa.ParentId)
+                                                 orderby o.ObjName
+                                                 select new DtoObject
+                                                 {
+                                                     Id = o.Id,
+                                                     ObjName = o.ObjName,
+                                                     ObjDesc = o.ObjDesc
+                                                 }).Distinct().ToListAsync();
 
                 foreach (var threat in objects)
                 {
-                    threat.Parents = await (from oa in _context.AppObjassoc join o in _context.AppWpObject on oa.ParentId equals o.Id where parentIds.Contains(oa.ParentId) && oa.ChildId == threat.Id select o.ObjName).ToListAsync();
+                    threat.Parents = await (from oa in _context.AppObjassoc join o in _context.AppObject on oa.ParentId equals o.Id where parentIds.Contains(oa.ParentId) && oa.ChildId == threat.Id select o.ObjName).ToListAsync();
                 }
                 return Ok(objects);
             }
