@@ -8,8 +8,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace SATIoT.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220411120332_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20220330102448_AddedAppObjassoc")]
+    partial class AddedAppObjassoc
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -69,7 +69,7 @@ namespace SATIoT.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AppObject");
+                    b.ToTable("AppWpObject");
                 });
 #pragma warning restore 612, 618
         }
