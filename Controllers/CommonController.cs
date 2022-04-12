@@ -84,8 +84,8 @@ namespace Controllers
             }
         }
 
-        [HttpPost("GetThreatsByComponents")]
-        public async Task<ActionResult<List<DtoObject>>> GetThreatsByComponents(List<int> parentIds)
+        [HttpPost("GetChildAssocByParentIds")]
+        public async Task<ActionResult<List<DtoObject>>> GetChildAssocByParentIds(List<int> parentIds)
         {
             try
             {
@@ -97,13 +97,52 @@ namespace Controllers
                                                  {
                                                      Id = o.Id,
                                                      ObjName = o.ObjName,
-                                                     ObjDesc = o.ObjDesc
+                                                     ObjDesc = o.ObjDesc,
+                                                     Active = o.Active
                                                  }).Distinct().ToListAsync();
 
                 foreach (var threat in objects)
                 {
                     threat.Parents = await (from oa in _context.AppObjassoc join o in _context.AppObject on oa.ParentId equals o.Id where parentIds.Contains(oa.ParentId) && oa.ChildId == threat.Id select o.ObjName).ToListAsync();
                 }
+                return Ok(objects);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpGet("GetParentAndChildByParentType")]
+        public async Task<ActionResult<List<DtoObjectAssoc>>> GetParentAndChildByParentType(string parentType)
+        {
+            try
+            {
+                List<DtoObjectAssoc> objects = await (from o in _context.AppObject
+                                                      where o.ObjType == parentType && o.Active
+                                                      orderby o.ObjName
+                                                      select new DtoObjectAssoc
+                                                      {
+                                                          Id = o.Id,
+                                                          ObjType = o.ObjType,
+                                                          ObjName = o.ObjName,
+                                                          ObjDesc = o.ObjDesc,
+                                                          ObjText = o.ObjText,
+                                                          Active = o.Active,
+                                                          Child = (from oa in _context.AppObjassoc
+                                                                   join oo in _context.AppObject on oa.ChildId equals oo.Id
+                                                                   where oa.ParentId == o.Id && oa.ParentType == o.ObjType
+                                                                   select new DtoObjectAssoc
+                                                                   {
+                                                                       Id = oo.Id,
+                                                                       ObjType = oo.ObjType,
+                                                                       ObjName = oo.ObjName,
+                                                                       ObjDesc = oo.ObjDesc,
+                                                                       ObjText = oo.ObjText,
+                                                                       Active = oo.Active,
+                                                                   }).ToList()
+                                                      }).ToListAsync();
+
                 return Ok(objects);
             }
             catch (Exception ex)
