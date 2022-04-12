@@ -20,18 +20,20 @@
             <div class="card-body" *ngIf="componentList && !getcomponentListLoading">
                 <h6>A(n) {{ device.objName }} typically has the following component(s).</h6>
                 <p>Please select all that apply:</p>
-                <dx-data-grid [dataSource]="componentList" [allowColumnReordering]="true" [allowColumnResizing]="true"
-                    columnResizingMode="widget" [columnAutoWidth]="true" [rowAlternationEnabled]="true"
-                    [showBorders]="true">
+                <dx-data-grid #gridComponents [dataSource]="componentList" [allowColumnReordering]="true"
+                    [allowColumnResizing]="true" columnResizingMode="widget" [columnAutoWidth]="true"
+                    [rowAlternationEnabled]="true" [showBorders]="true">
 
-                    <dxo-header-filter [visible]="true"></dxo-header-filter>
+                    <dxo-editing [allowUpdating]="true" mode="batch"></dxo-editing>
                     <dxo-paging [pageSize]="10"></dxo-paging>
                     <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 25, 50, 100]" [showInfo]="true">
                     </dxo-pager>
                     <dxo-sorting mode="multiple"></dxo-sorting>
+                    <dxo-toolbar [visible]="false"></dxo-toolbar>
 
                     <dxi-column dataField="active" caption="" width="50"></dxi-column>
-                    <dxi-column dataField="objName" caption="Component" [sortIndex]="1" sortOrder="asc"></dxi-column>
+                    <dxi-column dataField="objName" caption="Components" [allowEditing]="false" [sortIndex]="1"
+                        sortOrder="asc"></dxi-column>
                 </dx-data-grid>
             </div>
             <div class="card-footer" *ngIf="componentList && !getcomponentListLoading">
@@ -62,7 +64,6 @@
                     columnResizingMode="widget" [columnAutoWidth]="true" [rowAlternationEnabled]="true"
                     [showBorders]="true">
 
-                    <dxo-header-filter [visible]="true"></dxo-header-filter>
                     <dxo-paging [pageSize]="10"></dxo-paging>
                     <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 25, 50, 100]" [showInfo]="true">
                     </dxo-pager>

@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { DxDataGridComponent } from 'devextreme-angular';
+import { ToastrService } from 'ngx-toastr';
 import { AppObject } from '../models/appObject';
 import { SharedService } from '../shared/shared.service';
 
@@ -17,10 +19,14 @@ export class DeviceComponent implements OnInit {
   threatList: AppObject[];
   countermList: AppObject[];
 
+  @ViewChild("gridComponents", { static: false }) gridComponents: DxDataGridComponent;
+
   constructor(
     private route: ActivatedRoute,
-    private sharedService: SharedService
+    private sharedService: SharedService,
+    private toastr: ToastrService
   ) { }
+
   ngOnInit() {
     this.device = new AppObject();
     this.route.paramMap.subscribe(params => {
@@ -37,6 +43,10 @@ export class DeviceComponent implements OnInit {
       .subscribe(
         (response: AppObject) => {
           this.device = response;
+        },
+        (error) => {
+          this.toastr.error("Failed to device details. Please contact system administrator.", "System error..",
+            { closeButton: true, progressBar: true, timeOut: 0, extendedTimeOut: 1500 });
         }
       ).add(() => {
         this.getdeviceLoading = false;
@@ -49,6 +59,10 @@ export class DeviceComponent implements OnInit {
       .subscribe(
         (response: AppObject[]) => {
           this.componentList = response;
+        },
+        (error) => {
+          this.toastr.error("Failed to components. Please contact system administrator.", "System error..",
+            { closeButton: true, progressBar: true, timeOut: 0, extendedTimeOut: 1500 });
         }
       ).add(() => {
         this.getcomponentListLoading = false;
@@ -56,16 +70,23 @@ export class DeviceComponent implements OnInit {
   }
 
   getThreatsByComponents() {
-    let parentIds = [];
+    this.gridComponents.instance.saveEditData();
+
+    let components = [];
     this.getthreatListLoading = true;
     this.componentList.forEach(element => {
-      parentIds.push(element.id);
+      if (element.active)
+        components.push(element.id);
     });
 
-    this.sharedService.getThreatsByComponents(parentIds)
+    this.sharedService.getThreatsByComponents(components)
       .subscribe(
         (response: AppObject[]) => {
           this.threatList = response;
+        },
+        (error) => {
+          this.toastr.error("Failed to retrieve threats. Please contact system administrator.", "System error..",
+            { closeButton: true, progressBar: true, timeOut: 0, extendedTimeOut: 1500 });
         }
       ).add(() => {
         this.getthreatListLoading = false;

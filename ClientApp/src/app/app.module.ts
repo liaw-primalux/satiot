@@ -13,6 +13,8 @@ import { SharedModule } from './shared/shared.module';
 import { DeviceComponent } from './device/device.component';
 import { DxDataGridModule } from 'devextreme-angular';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { ToastrModule } from 'ngx-toastr';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -34,7 +36,14 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent },
     ]),
-    SharedModule
+    SharedModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot({
+      positionClass: 'toast-top-right',
+      timeOut: 1500,
+      extendedTimeOut: 1500,
+      progressBar: true
+    }),
   ],
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy }
