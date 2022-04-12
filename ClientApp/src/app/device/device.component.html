@@ -79,30 +79,44 @@
                 </dx-data-grid>
             </div>
             <div class="card-footer" *ngIf="threatList">
-                <button class="btn btn-link" (click)="getCountermByThreats()">See recommendations</button>
+                <button class="btn btn-link" (click)="getMitigationByThreats()">See recommendations</button>
             </div>
         </div>
     </div>
 
-    <div class="col-lg-12" *ngIf="countermList">
+    <div class="col-lg-12" *ngIf="mitigationList">
         <div class="card">
             <div class="card-header">
                 <h5>So what can I do?</h5>
             </div>
             <div class="card-body">
                 <p>
-                    Against the threats listed above, here are the steps we could take to minimise the risks. Godspeed.
+                    Against the threats listed above, here are the steps we could take to minimise the risks. Follow the
+                    guidelines below to better protect yourself!
                 </p>
-                <ul>
-                    <li *ngFor="let threat of threatList">
-                        {{ threat.objName }}
-                        <br>
-                        <small>This is a type of concern that is common or could happen when a device uses <i>{{
-                                threat.parents }}</i> components.</small> <br>
-                        Safeguards can include:
-                        <br><br>
-                    </li>
-                </ul>
+                <div class="alert" role="alert" [class.alert-light]="mcompleteStage == 'STAGE1'"
+                    [class.alert-warning]="mcompleteStage == 'STAGE2'"
+                    [class.alert-primary]="mcompleteStage == 'STAGE3'" [class.alert-info]="mcompleteStage == 'STAGE4'"
+                    [class.alert-success]="mcompleteStage == 'STAGE5'" *ngIf="percentageComplete > 0">
+                    ({{ countMitigated }}/{{ mitigationList.length }}) <b>{{ mcompleteMsg }}</b>
+                </div>
+                <div class="alert" [class.alert-light]="!mitigation.active" [class.alert-success]="mitigation.active"
+                    role="alert" *ngFor="let mitigation of mitigationList">
+                    <p>
+                        <small><span class="badge badge-pill badge-secondary"
+                                *ngFor="let parent of mitigation.parents">~{{
+                                parent
+                                }}</span></small>
+                    </p>
+                    <p>
+                        <b>{{ mitigation.objName }}</b>
+                    </p>
+                    <p>
+                        <input class="form-check-input" type="checkbox" [value]="true" [(ngModel)]="mitigation.active"
+                            (click)="evaluateRisk(!mitigation.active)">
+                        {{ mitigation.objDesc }}
+                    </p>
+                </div>
             </div>
         </div>
     </div>

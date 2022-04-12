@@ -14,6 +14,10 @@ export class SharedService {
     return this.HttpClient.get(this.apiUrl + '/GetObjectsByType?objType=' + objType);
   }
 
+  getParentAndChildByParentType(parentType: string) {
+    return this.HttpClient.get(this.apiUrl + '/GetParentAndChildByParentType?parentType=' + parentType);
+  }
+
   getChildrenByParentId(parentId: number) {
     return this.HttpClient.get(this.apiUrl + '/GetChildrenByParentId?parentId=' + parentId);
   }
@@ -22,8 +26,8 @@ export class SharedService {
     return this.HttpClient.post(this.apiUrl + '/GetChildrenByParentList', parentIds);
   }
 
-  getThreatsByComponents(parentIds: number[]) {
-    return this.HttpClient.post(this.apiUrl + '/GetThreatsByComponents', parentIds);
+  getChildAssocByParentIds(parentIds: number[]) {
+    return this.HttpClient.post(this.apiUrl + '/GetChildAssocByParentIds', parentIds);
   }
 
   getDeviceById(id: number) {
