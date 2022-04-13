@@ -40,10 +40,9 @@
             </div>
             <div class="card-footer" *ngIf="componentList && !getcomponentListLoading">
                 <button class="btn btn-primary" (click)="getThreatsByComponents()" [disabled]="getthreatListLoading">
-                    <span>Next
-                    </span>
+                    <span>Next</span>
+                    <span class="spinner-border spinner-border-sm" role="status" *ngIf="getthreatListLoading"></span>
                 </button>
-
             </div>
         </div>
     </div>
@@ -79,7 +78,11 @@
                 </dx-data-grid>
             </div>
             <div class="card-footer" *ngIf="threatList">
-                <button class="btn btn-link" (click)="getMitigationByThreats()">See recommendations</button>
+                <button class="btn btn-link" (click)="getMitigationByThreats()" [disabled]="getmitigationListLoading">
+                    <span>See recommendations</span>
+                    <span class="spinner-border spinner-border-sm" role="status"
+                        *ngIf="getmitigationListLoading"></span>
+                </button>
             </div>
         </div>
     </div>
@@ -90,6 +93,10 @@
                 <h5>So what can I do?</h5>
             </div>
             <div class="card-body">
+                <div class="pyro" *ngIf="mcompleteStage == 'STAGE5'">
+                    <div class="before"></div>
+                    <div class="after"></div>
+                </div>
                 <p>
                     Against the threats listed above, here are the steps we could take to minimise the risks. Follow the
                     guidelines below to better protect yourself!

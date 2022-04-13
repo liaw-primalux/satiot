@@ -10,7 +10,7 @@
         </p>
         <button class="btn btn-primary" (click)="started=true" *ngIf="!started && categoryList"
             [disabled]="getcategoryListLoading">
-            <span *ngIf="!getcategoryListLoading">Start</span>
+            <span>Start</span>
             <span class="spinner-border spinner-border-sm" role="status" *ngIf="getcategoryListLoading"></span>
         </button>
     </div>
