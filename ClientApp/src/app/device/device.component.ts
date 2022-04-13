@@ -10,7 +10,7 @@ import { SharedService } from '../shared/shared.service';
 @Component({
   selector: 'app-device',
   templateUrl: './device.component.html',
-  styleUrls: ['./device.component.css']
+  styleUrls: ['./device.component.scss']
 })
 export class DeviceComponent implements OnInit {
   completionMsgs: DtoObjectAssoc[];
