@@ -1,56 +1,60 @@
-<div class="row">
-    <div class="col-12">
-        <h1>Hello there,</h1>
-        <p>
-            Looking to purchase an IoT device, but is concerned with cyber security issues and don't know what is
-            involved?
-            Don't worry, this tool will help to guide you with your purchse, and show you the safeguards you can do to
-            protect
-            yourself.
-        </p>
-        <button class="btn btn-primary" (click)="started=true" *ngIf="!started && categoryList"
-            [disabled]="getcategoryListLoading">
-            <span>Start</span>
-            <span class="spinner-border spinner-border-sm" role="status" *ngIf="getcategoryListLoading"></span>
-        </button>
-    </div>
-</div>
-<div class="row" *ngIf="started">
-    <div class="col-lg-12">
-        <div class="card">
-            <div class="card-header">
-                <h6>Step 1:</h6>
-            </div>
-            <div class="card-body">
-                <p>Start by selecting from the categories below:</p>
-                <ul>
-                    <li *ngFor="let category of categoryList">
-                        <a [routerLink]="" (click)="getDevicesByCat(category.id)">
-                            {{ category.objName }}
-                        </a>
-                    </li>
-                </ul>
-            </div>
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h1>Hello there,</h1>
+            <p>
+                Looking to purchase an IoT device, but is concerned with cyber security issues and don't know what is
+                involved?
+                Don't worry, this tool will help to guide you with your purchse, and show you the safeguards you can do
+                to
+                protect
+                yourself.
+            </p>
+            <button class="btn btn-primary" (click)="started=true" *ngIf="!started && categoryList"
+                [disabled]="getcategoryListLoading">
+                <span>Start</span>
+                <span class="spinner-border spinner-border-sm" role="status" *ngIf="getcategoryListLoading"></span>
+            </button>
         </div>
     </div>
-
-    <div class="col-lg-12" *ngIf="deviceList || getdeviceListLoading">
-        <div class="card">
-            <div class="card-header">
-                <h6>
-                    Step 2:
-                    <span class="spinner-border spinner-border-sm" role="status" *ngIf="getdeviceListLoading"></span>
-                </h6>
+    <div class="row" *ngIf="started">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header">
+                    <h6>Step 1:</h6>
+                </div>
+                <div class="card-body">
+                    <p>Start by selecting from the categories below:</p>
+                    <ul>
+                        <li *ngFor="let category of categoryList">
+                            <a [routerLink]="" (click)="getDevicesByCat(category.id)">
+                                {{ category.objName }}
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             </div>
-            <div class="card-body" *ngIf="deviceList">
-                <p>Locate your device below:</p>
-                <ul>
-                    <li *ngFor="let device of deviceList">
-                        <a [routerLink]="['/device', device.id]">
-                            {{ device.objName }}
-                        </a>
-                    </li>
-                </ul>
+        </div>
+
+        <div class="col-lg-12" *ngIf="deviceList || getdeviceListLoading">
+            <div class="card">
+                <div class="card-header">
+                    <h6>
+                        Step 2:
+                        <span class="spinner-border spinner-border-sm" role="status"
+                            *ngIf="getdeviceListLoading"></span>
+                    </h6>
+                </div>
+                <div class="card-body" *ngIf="deviceList">
+                    <p>Locate your device below:</p>
+                    <ul>
+                        <li *ngFor="let device of deviceList">
+                            <a [routerLink]="['/device', device.id]">
+                                {{ device.objName }}
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>

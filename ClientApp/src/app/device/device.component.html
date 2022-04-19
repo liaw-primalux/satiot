@@ -1,128 +1,140 @@
-<div class="row">
-    <div class="col-lg-12">
-        <h3>{{ device.objName }}</h3>
-        <span class="badge badge-pill badge-info" *ngFor="let cat of device.parents">{{ cat }}</span>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <h3>{{ device.objName }}</h3>
+            <span class="badge badge-pill badge-info" *ngFor="let cat of device.parents">{{ cat }}</span>
 
-        <p>{{ device.objDesc }}</p>
-    </div>
-    <div class="col-lg-12" *ngIf="getdeviceLoading">
-        <div class="spinner-border" role="status"></div>
-    </div>
-</div>
-<br>
-
-<div class="row">
-    <div class="col-lg-12">
-        <div class="card">
-            <div class="card-header">
-                <h5>Step 3:
-                    <span class="spinner-border spinner-border-sm" role="status" *ngIf="getcomponentListLoading"></span>
-                </h5>
-            </div>
-            <div class="card-body" *ngIf="componentList && !getcomponentListLoading">
-                <h6>A(n) {{ device.objName }} typically has the following component(s).</h6>
-                <p>Please select all that apply:</p>
-                <dx-data-grid #gridComponents [dataSource]="componentList" [allowColumnReordering]="true"
-                    [allowColumnResizing]="true" columnResizingMode="widget" [columnAutoWidth]="true"
-                    [rowAlternationEnabled]="true" [showBorders]="true">
-
-                    <dxo-editing [allowUpdating]="true" mode="batch"></dxo-editing>
-                    <dxo-paging [pageSize]="10"></dxo-paging>
-                    <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 25, 50, 100]" [showInfo]="true">
-                    </dxo-pager>
-                    <dxo-sorting mode="multiple"></dxo-sorting>
-                    <dxo-toolbar [visible]="false"></dxo-toolbar>
-
-                    <dxi-column dataField="active" caption="" width="50"></dxi-column>
-                    <dxi-column dataField="objName" caption="Components" [allowEditing]="false" [sortIndex]="1"
-                        sortOrder="asc"></dxi-column>
-                </dx-data-grid>
-            </div>
-            <div class="card-footer" *ngIf="componentList && !getcomponentListLoading">
-                <button class="btn btn-primary" (click)="getThreatsByComponents()" [disabled]="getthreatListLoading">
-                    <span>Next</span>
-                    <span class="spinner-border spinner-border-sm" role="status" *ngIf="getthreatListLoading"></span>
-                </button>
-            </div>
+            <p>{{ device.objDesc }}</p>
+        </div>
+        <div class="col-lg-12" *ngIf="getdeviceLoading">
+            <div class="spinner-border" role="status"></div>
         </div>
     </div>
+    <br>
 
-    <div class="col-lg-12" *ngIf="threatList || getthreatListLoading">
-        <div class="card">
-            <div class="card-header">
-                <h5>Step 4:
-                    <span class="spinner-border spinner-border-sm" role="status" *ngIf="getthreatListLoading"></span>
-                </h5>
-            </div>
-            <div class="card-body" *ngIf="threatList">
-                <p>
-                    Associated with the components selected above, are these threats at large. See the description
-                    against each
-                    or
-                    click to expand further.
-                </p>
-                <dx-data-grid [dataSource]="threatList" [allowColumnReordering]="true" [allowColumnResizing]="true"
-                    columnResizingMode="widget" [columnAutoWidth]="true" [rowAlternationEnabled]="true"
-                    [showBorders]="true">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Step 3:
+                        <span class="spinner-border spinner-border-sm" role="status"
+                            *ngIf="getcomponentListLoading"></span>
+                    </h5>
+                </div>
+                <div class="card-body" *ngIf="componentList && !getcomponentListLoading">
+                    <h6>A(n) {{ device.objName }} typically has the following component(s).</h6>
+                    <p>Please select all that apply:</p>
+                    <dx-data-grid #gridComponents [dataSource]="componentList" [allowColumnReordering]="true"
+                        [allowColumnResizing]="true" columnResizingMode="widget" [columnAutoWidth]="true"
+                        [rowAlternationEnabled]="true" [showBorders]="true">
 
-                    <dxo-paging [pageSize]="10"></dxo-paging>
-                    <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 25, 50, 100]" [showInfo]="true">
-                    </dxo-pager>
-                    <dxo-sorting mode="multiple"></dxo-sorting>
+                        <dxo-editing [allowUpdating]="true" mode="batch"></dxo-editing>
+                        <dxo-paging [pageSize]="10"></dxo-paging>
+                        <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 25, 50, 100]"
+                            [showInfo]="true">
+                        </dxo-pager>
+                        <dxo-sorting mode="multiple"></dxo-sorting>
+                        <dxo-toolbar [visible]="false"></dxo-toolbar>
 
-                    <dxi-column dataField="objName" caption="Threats" width="300" [sortIndex]="1" sortOrder="asc">
-                    </dxi-column>
-                    <dxi-column dataField="parents" caption="Derived from" width="300">
-                    </dxi-column>
-                    <dxi-column dataField="objDesc" caption="What is it?"></dxi-column>
-                </dx-data-grid>
-            </div>
-            <div class="card-footer" *ngIf="threatList">
-                <button class="btn btn-link" (click)="getMitigationByThreats()" [disabled]="getmitigationListLoading">
-                    <span>See recommendations</span>
-                    <span class="spinner-border spinner-border-sm" role="status"
-                        *ngIf="getmitigationListLoading"></span>
-                </button>
+                        <dxi-column dataField="active" caption="" width="50"></dxi-column>
+                        <dxi-column dataField="objName" caption="Components" [allowEditing]="false" [sortIndex]="1"
+                            sortOrder="asc"></dxi-column>
+                    </dx-data-grid>
+                </div>
+                <div class="card-footer" *ngIf="componentList && !getcomponentListLoading">
+                    <button class="btn btn-primary" (click)="getThreatsByComponents()"
+                        [disabled]="getthreatListLoading">
+                        <span>Next</span>
+                        <span class="spinner-border spinner-border-sm" role="status"
+                            *ngIf="getthreatListLoading"></span>
+                    </button>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="col-lg-12" *ngIf="mitigationList">
-        <div class="card">
-            <div class="card-header">
-                <h5>So what can I do?</h5>
+        <div class="col-lg-12" *ngIf="threatList || getthreatListLoading">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Step 4:
+                        <span class="spinner-border spinner-border-sm" role="status"
+                            *ngIf="getthreatListLoading"></span>
+                    </h5>
+                </div>
+                <div class="card-body" *ngIf="threatList">
+                    <p>
+                        Associated with the components selected above, are these threats at large. See the description
+                        against each
+                        or
+                        click to expand further.
+                    </p>
+                    <dx-data-grid [dataSource]="threatList" [allowColumnReordering]="true" [allowColumnResizing]="true"
+                        columnResizingMode="widget" [columnAutoWidth]="true" [rowAlternationEnabled]="true"
+                        [showBorders]="true">
+
+                        <dxo-paging [pageSize]="10"></dxo-paging>
+                        <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 25, 50, 100]"
+                            [showInfo]="true">
+                        </dxo-pager>
+                        <dxo-sorting mode="multiple"></dxo-sorting>
+
+                        <dxi-column dataField="objName" caption="Threats" width="300" [sortIndex]="1" sortOrder="asc">
+                        </dxi-column>
+                        <dxi-column dataField="parents" caption="Derived from" width="300">
+                        </dxi-column>
+                        <dxi-column dataField="objDesc" caption="What is it?"></dxi-column>
+                    </dx-data-grid>
+                </div>
+                <div class="card-footer" *ngIf="threatList">
+                    <button class="btn btn-link" (click)="getMitigationByThreats()"
+                        [disabled]="getmitigationListLoading">
+                        <span>See recommendations</span>
+                        <span class="spinner-border spinner-border-sm" role="status"
+                            *ngIf="getmitigationListLoading"></span>
+                    </button>
+                </div>
             </div>
-            <div class="card-body">
-                <div class="pyro" *ngIf="mcompleteStage == 'STAGE5'">
-                    <div class="before"></div>
-                    <div class="after"></div>
+        </div>
+
+        <div class="col-lg-12" *ngIf="mitigationList">
+            <div class="card">
+                <div class="card-header">
+                    <h5>So what can I do?</h5>
                 </div>
-                <p>
-                    Against the threats listed above, here are the steps we could take to minimise the risks. Follow the
-                    guidelines below to better protect yourself!
-                </p>
-                <div class="alert" role="alert" [class.alert-light]="mcompleteStage == 'STAGE1'"
-                    [class.alert-warning]="mcompleteStage == 'STAGE2'"
-                    [class.alert-primary]="mcompleteStage == 'STAGE3'" [class.alert-info]="mcompleteStage == 'STAGE4'"
-                    [class.alert-success]="mcompleteStage == 'STAGE5'" *ngIf="percentageComplete > 0">
-                    ({{ countMitigated }}/{{ mitigationList.length }}) <b>{{ mcompleteMsg }}</b>
-                </div>
-                <div class="alert" [class.alert-light]="!mitigation.active" [class.alert-success]="mitigation.active"
-                    role="alert" *ngFor="let mitigation of mitigationList">
+                <div class="card-body">
+                    <div class="pyro" *ngIf="mcompleteStage == 'STAGE5'">
+                        <div class="before"></div>
+                        <div class="after"></div>
+                    </div>
                     <p>
-                        <small><span class="badge badge-pill badge-secondary"
-                                *ngFor="let parent of mitigation.parents">~{{
-                                parent
-                                }}</span></small>
+                        Against the threats listed above, here are the steps we could take to minimise the risks. Follow
+                        the
+                        guidelines below to better protect yourself!
                     </p>
-                    <p>
-                        <b>{{ mitigation.objName }}</b>
-                    </p>
-                    <p>
-                        <input class="form-check-input" type="checkbox" [value]="true" [(ngModel)]="mitigation.active"
-                            (click)="evaluateRisk(!mitigation.active)">
-                        {{ mitigation.objDesc }}
-                    </p>
+                    <div class="alert" role="alert" [class.alert-light]="mcompleteStage == 'STAGE1'"
+                        [class.alert-warning]="mcompleteStage == 'STAGE2'"
+                        [class.alert-primary]="mcompleteStage == 'STAGE3'"
+                        [class.alert-info]="mcompleteStage == 'STAGE4'"
+                        [class.alert-success]="mcompleteStage == 'STAGE5'" *ngIf="percentageComplete > 0">
+                        ({{ countMitigated }}/{{ mitigationList.length }}) <b>{{ mcompleteMsg }}</b>
+                    </div>
+                    <div class="alert" [class.alert-light]="!mitigation.active"
+                        [class.alert-success]="mitigation.active" role="alert"
+                        *ngFor="let mitigation of mitigationList">
+                        <p>
+                            <small><span class="badge badge-pill badge-secondary"
+                                    *ngFor="let parent of mitigation.parents">~{{
+                                    parent
+                                    }}</span></small>
+                        </p>
+                        <p>
+                            <b>{{ mitigation.objName }}</b>
+                        </p>
+                        <p>
+                            <input class="form-check-input" type="checkbox" [value]="true"
+                                [(ngModel)]="mitigation.active" (click)="evaluateRisk(!mitigation.active)">
+                            {{ mitigation.objDesc }}
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
