@@ -7,8 +7,8 @@ namespace Entities
         public DataContext(DbContextOptions options) : base(options)
         {
         }
-
         public DbSet<AppObject> AppObject { get; set; }
         public DbSet<AppObjassoc> AppObjassoc { get; set; }
+        public DbSet<AppUser> AppUser { get; set; }
     }
 }
