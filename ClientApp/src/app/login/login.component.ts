@@ -2,7 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { User } from '../models/user';
+import { LoginDto } from '../models/dto/dtoLogin';
 import { LoginService } from './login.service';
 
 @Component({
@@ -12,7 +12,7 @@ import { LoginService } from './login.service';
 })
 export class LoginComponent implements OnInit {
   httpLoading = false;
-  model: User;
+  model: LoginDto;
   errorMsg: string;
 
   constructor(
@@ -22,13 +22,15 @@ export class LoginComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.model = new User();
+    this.model = new LoginDto();
   }
 
   login() {
+    let loginDto = <LoginDto>{ username: this.loginService.encrypt(this.model.username), password: this.loginService.encrypt(this.model.password) }
+
     this.errorMsg = null;
     this.httpLoading = true;
-    this.loginService.login(this.model).subscribe(response => {
+    this.loginService.login(loginDto).subscribe(response => {
 
     },
       (error: HttpErrorResponse) => {
