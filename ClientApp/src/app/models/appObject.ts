@@ -4,5 +4,7 @@ export class AppObject {
     objName: string;
     objDesc: string;
     objText: string;
+    updatedBy: string;
+    updatedOn?: Date;
     active: boolean;
 }

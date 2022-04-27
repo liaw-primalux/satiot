@@ -1,3 +1,5 @@
+using System;
+
 namespace Entities
 {
     public class AppObjassoc
@@ -8,6 +10,8 @@ namespace Entities
         public string ChildType { get; set; }
         public int ChildId { get; set; }
         public string AssocText { get; set; }
+        public string UpdatedBy { get; set; }
+        public DateTime UpdatedOn { get; set; }
         public bool Active { get; set; }
     }
 }

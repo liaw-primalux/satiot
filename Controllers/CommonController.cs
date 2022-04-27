@@ -6,6 +6,7 @@ using Entities;
 using Entities.DTO;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Services;
 
 namespace Controllers
 {
@@ -14,9 +15,12 @@ namespace Controllers
     public class CommonController : ControllerBase
     {
         private readonly DataContext _context;
-        public CommonController(DataContext context)
+        private ICommonService _commonService;
+
+        public CommonController(DataContext context, ICommonService commonService)
         {
             _context = context;
+            _commonService = commonService;
         }
 
         [HttpGet("GetObjectsByType")]
@@ -24,14 +28,13 @@ namespace Controllers
         {
             try
             {
-                List<AppObject> objects = await (from o in _context.AppObject where o.ObjType == objType orderby o.ObjName select o).ToListAsync();
-                return Ok(objects);
+                List<AppObject> result = await _commonService.GetObjectListByType(objType);
+                return Ok(result);
             }
             catch (Exception ex)
             {
                 return StatusCode(500, ex.Message);
             }
-
         }
 
         [HttpGet("GetChildrenByParentId")]
@@ -39,8 +42,8 @@ namespace Controllers
         {
             try
             {
-                List<AppObject> objects = await (from oa in _context.AppObjassoc join o in _context.AppObject on oa.ChildId equals o.Id where oa.ParentId == parentId orderby o.ObjName select o).ToListAsync();
-                return Ok(objects);
+                List<AppObject> result = await _commonService.GetChildrenByParentId(parentId);
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -53,8 +56,8 @@ namespace Controllers
         {
             try
             {
-                List<AppObject> objects = await (from oa in _context.AppObjassoc join o in _context.AppObject on oa.ChildId equals o.Id where parentIds.Contains(oa.ParentId) orderby o.ObjName select o).ToListAsync();
-                return Ok(objects);
+                List<AppObject> result = await _commonService.GetChildrenByParentList(parentIds);
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -67,16 +70,17 @@ namespace Controllers
         {
             try
             {
-                DtoObject appObject = await (from o in _context.AppObject
-                                             where o.Id == id
-                                             select new DtoObject
-                                             {
-                                                 Id = o.Id,
-                                                 ObjName = o.ObjName,
-                                                 ObjDesc = o.ObjDesc,
-                                                 Parents = (from oa in _context.AppObjassoc join oo in _context.AppObject on oa.ParentId equals oo.Id where oa.ChildId == o.Id orderby oo.ObjName select oo.ObjName).ToList()
-                                             }).FirstOrDefaultAsync();
-                return Ok(appObject);
+                AppObject appObject = await _commonService.GetObjectById(id);
+
+                DtoObject result = new DtoObject()
+                {
+                    Id = appObject.Id,
+                    ObjName = appObject.ObjName,
+                    ObjDesc = appObject.ObjDesc,
+                    Parents = (from oa in _context.AppObjassoc join oo in _context.AppObject on oa.ParentId equals oo.Id where oa.ChildId == appObject.Id orderby oo.ObjName select oo.ObjName).ToList()
+                };
+
+                return Ok(result);
             }
             catch (Exception ex)
             {
