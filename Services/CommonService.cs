@@ -9,7 +9,7 @@ namespace Services
 {
     public interface ICommonService
     {
-        Task<List<AppObject>> GetObjectListByType(string objType);
+        Task<List<AppObject>> GetObjectListByType(string objType, bool showInactiveAlso = false);
         Task<AppObject> GetObjectById(int id);
         Task<List<AppObject>> GetChildrenByParentId(int parentId);
         Task<List<AppObject>> GetChildrenByParentList(List<int> parentIds);
@@ -23,10 +23,11 @@ namespace Services
             _context = context;
         }
 
-        public async Task<List<AppObject>> GetObjectListByType(string objType)
+        public async Task<List<AppObject>> GetObjectListByType(string objType, bool showInactiveAlso = false)
         {
             var result = await (from co in _context.AppObject
-                                where co.ObjType.Equals(objType) && co.Active
+                                where co.ObjType.Equals(objType)
+                                && (showInactiveAlso ? (co.Active || !co.Active) : co.Active)
                                 orderby co.ObjName, co.ObjDesc
                                 select co).ToListAsync();
             return result;

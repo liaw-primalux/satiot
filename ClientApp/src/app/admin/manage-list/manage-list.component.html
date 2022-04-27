@@ -1,0 +1,74 @@
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a [routerLink]="['/admin/']">Admin</a></li>
+                    <li class="breadcrumb-item"><a [routerLink]="['/admin/manage-list','category']"
+                            routerLinkActive="breadcrumb-item active">Category</a></li>
+                    <li class="breadcrumb-item"><a [routerLink]="['/admin/manage-list','device']"
+                            routerLinkActive="breadcrumb-item active">Device</a></li>
+                    <li class="breadcrumb-item"><a [routerLink]="['/admin/manage-list','threat']"
+                            routerLinkActive="breadcrumb-item active">Threat</a></li>
+                    <li class="breadcrumb-item"><a [routerLink]="['/admin/manage-list','mitigation']"
+                            routerLinkActive="breadcrumb-item active">Mitigation</a></li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <h1>
+                {{ objType | titlecase }} List
+            </h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="spinner-border spinner-border-sm" role="status" *ngIf="httpLoading"></div>
+
+                    <dx-data-grid [dataSource]="objectList" [allowColumnReordering]="true" [allowColumnResizing]="true"
+                        columnResizingMode="widget" [columnAutoWidth]="true" [rowAlternationEnabled]="true"
+                        [showBorders]="true" (onInitNewRow)="onInitNewRow($event.data)"
+                        (onRowInserted)="insertObject($event.data)" (onRowUpdated)="updateObject($event.data)"
+                        (onRowRemoved)="deleteObject($event.data)">
+
+                        <dxo-editing mode="form" [allowAdding]="true" [allowUpdating]="true" [allowDeleting]="true"
+                            [useIcons]="true">
+                            <dxo-form>
+                                <dxi-item itemType="group" [colCount]="2" [colSpan]="2">
+                                    <dxi-item dataField="objName"></dxi-item>
+                                    <dxi-item dataField="objDesc"></dxi-item>
+                                    <dxi-item dataField="objText"></dxi-item>
+                                    <dxi-item dataField="active"></dxi-item>
+                                </dxi-item>
+                            </dxo-form>
+                        </dxo-editing>
+                        <dxo-column-chooser [enabled]="true" mode="select"></dxo-column-chooser>
+                        <dxo-export [enabled]="true" fileName="SATIoT List"></dxo-export>
+                        <dxo-header-filter [visible]="true"></dxo-header-filter>
+                        <dxo-filter-row [visible]="true"></dxo-filter-row>
+                        <dxo-paging [pageSize]="25"></dxo-paging>
+                        <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 25, 100]" [showInfo]="true">
+                        </dxo-pager>
+                        <dxo-search-panel [visible]="true" [highlightCaseSensitive]="true"></dxo-search-panel>
+                        <dxo-sorting mode="multiple"></dxo-sorting>
+
+                        <dxi-column dataField="id" [allowEditing]="false" [allowHeaderFiltering]="false"
+                            [visible]="false"></dxi-column>
+                        <dxi-column dataField="objName" sortIndex="1" sortOrder="asc"></dxi-column>
+                        <dxi-column dataField="objDesc"></dxi-column>
+                        <dxi-column dataField="objText"></dxi-column>
+                        <dxi-column dataField="active" width="100"></dxi-column>
+                        <dxi-column dataField="updatedBy" [allowEditing]="false" [visible]="false"></dxi-column>
+                        <dxi-column dataField="updatedOn" dataType="date" format="dd-MMM-yyyy HH:mm"
+                            [allowEditing]="false" [visible]="false">
+                        </dxi-column>
+                    </dx-data-grid>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
