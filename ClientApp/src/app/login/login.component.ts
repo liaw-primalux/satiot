@@ -31,7 +31,7 @@ export class LoginComponent implements OnInit {
     this.errorMsg = null;
     this.httpLoading = true;
     this.loginService.login(loginDto).subscribe(response => {
-
+      this.router.navigate(['/admin']);
     },
       (error: HttpErrorResponse) => {
         if (error.status == 401)
