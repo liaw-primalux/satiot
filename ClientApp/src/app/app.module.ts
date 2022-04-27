@@ -16,6 +16,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LoginComponent } from './login/login.component';
 import { AdminModule } from './admin/admin.module';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { AdminModule } from './admin/admin.module';
     CounterComponent,
     FetchDataComponent,
     DeviceComponent,
-    LoginComponent
+    LoginComponent,
+    NotFoundComponent
   ],
   imports: [
     AdminModule,
@@ -36,7 +38,8 @@ import { AdminModule } from './admin/admin.module';
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'device/:id', component: DeviceComponent },
-      { path: 'login', component: LoginComponent }
+      { path: 'login', component: LoginComponent },
+      { path: '**', component: NotFoundComponent }
     ]),
     SharedModule,
     BrowserAnimationsModule,
